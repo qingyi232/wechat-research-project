@@ -1,0 +1,304 @@
+========================================================
+    高校科研项目管理系统 - 代码说明文档
+========================================================
+
+【项目概述】
+基于微信小程序+PC端的高校科研项目管理系统，采用前后端分离架构。
+支持项目申报、立项、结题、经费预算与结算、科研成果管理等全流程业务。
+
+【技术栈】
+- 后端：Spring Boot 2.7 + MyBatis-Plus 3.5 + MySQL 8.0 + Redis
+- PC前端：Vue 3 + Vite + Element Plus + Pinia
+- 小程序：微信原生技术栈（WXML + WXSS + JavaScript）
+- 安全：Spring Security + JWT + XSS过滤 + 接口限流 + 操作日志
+
+
+========================================================
+一、项目目录结构
+========================================================
+
+基于微信小程序的高校科研项目/
+├── backend/                         # 后端 Spring Boot 项目
+│   ├── pom.xml                      # Maven 依赖配置
+│   └── src/main/
+│       ├── java/com/research/
+│       │   ├── ResearchApplication.java   # 启动类
+│       │   ├── controller/          # 控制器层（接收请求）
+│       │   ├── service/             # 业务逻辑层
+│       │   ├── mapper/              # 数据访问层（MyBatis接口）
+│       │   ├── entity/              # 实体类（数据库表映射）
+│       │   ├── config/              # 配置类（安全/拦截器/AOP）
+│       │   └── util/                # 工具类（JWT/加密/统一返回）
+│       └── resources/
+│           ├── application.yml      # 项目配置文件
+│           ├── mapper/*.xml         # MyBatis SQL 映射文件
+│           └── db/init.sql          # 数据库初始化脚本
+│
+├── frontend-pc/                     # PC端 Vue 项目
+│   ├── package.json                 # 依赖配置
+│   ├── vite.config.js               # Vite 配置
+│   ├── index.html                   # 入口 HTML
+│   └── src/
+│       ├── main.js                  # Vue 应用入口
+│       ├── App.vue                  # 根组件
+│       ├── api/                     # API 请求封装
+│       │   ├── request.js           # Axios 实例（拦截器配置）
+│       │   └── index.js             # 所有 API 接口定义
+│       ├── router/index.js          # 路由配置
+│       ├── store/user.js            # 用户状态管理（Pinia）
+│       ├── layout/index.vue         # 页面布局框架
+│       ├── views/                   # 页面组件
+│       │   ├── login/               # 登录/注册页
+│       │   ├── dashboard/           # 首页概览
+│       │   ├── project/             # 项目管理
+│       │   ├── budget/              # 经费预算
+│       │   ├── settlement/          # 经费结算
+│       │   ├── paper/               # 论文专著
+│       │   ├── patent/              # 专利管理
+│       │   ├── taskbook/            # 任务书管理
+│       │   ├── user/                # 用户管理
+│       │   └── notice/              # 消息通知
+│       └── style.css                # 全局样式
+│
+├── miniprogram/                     # 微信小程序项目
+│   ├── app.js                       # 小程序入口（全局数据）
+│   ├── app.json                     # 页面路由和TabBar配置
+│   ├── utils/
+│   │   ├── request.js               # 网络请求封装
+│   │   └── api.js                   # API 接口定义
+│   └── pages/                       # 小程序页面
+│       ├── login/                   # 登录页
+│       ├── register/                # 注册页
+│       ├── index/                   # 首页
+│       ├── project/                 # 项目管理（列表/详情/申报）
+│       ├── budget/                  # 经费预算
+│       ├── settlement/              # 经费结算
+│       ├── paper/                   # 论文专著
+│       ├── patent/                  # 专利管理
+│       ├── notice/                  # 消息通知
+│       └── mine/                    # 个人中心
+│
+└── 基于微信小程序的高校科研项目管理系统.docx  # 论文文档
+
+
+========================================================
+二、后端代码说明
+========================================================
+
+【控制器层 controller/】
+
+AuthController.java        - 登录注册接口
+  POST /api/auth/login     - 用户登录，返回JWT令牌
+  POST /api/auth/register  - 用户注册，状态设为"待审核"
+
+UserController.java        - 用户管理接口
+  GET  /api/user/info      - 获取当前登录用户信息
+  GET  /api/user/list      - 用户列表（分页+筛选）
+  PUT  /api/user/audit/{id} - 审核/启用/禁用用户
+  PUT  /api/user/resetPwd/{id} - 重置密码为123456
+  DELETE /api/user/{id}    - 删除用户
+
+ProjectController.java     - 项目管理接口
+  GET  /api/project/list   - 项目列表（按角色自动筛选）
+  GET  /api/project/detail/{id} - 项目详情（含负责人姓名）
+  POST /api/project/apply  - 项目申报（根据类型设置初始审批状态）
+  POST /api/project/approve - 项目审批（含角色权限校验）
+  POST /api/project/submitCompletion/{id} - 提交结题
+
+BudgetController.java      - 经费预算接口
+  POST /api/budget/submit  - 教师编制预算
+  POST /api/budget/review  - 学校科研主管审核
+  POST /api/budget/seal/{id} - 财务主管盖章
+  POST /api/budget/finalApprove/{id} - 学校科研主管最终审批
+
+SettlementController.java  - 经费结算接口
+  POST /api/settlement/submit - 教师编制结算
+  POST /api/settlement/review - 学校科研主管审核
+  POST /api/settlement/seal/{id} - 财务主管盖章
+
+PaperController.java       - 论文专著接口
+  POST /api/paper/submit   - 教师录入论文专著
+  POST /api/paper/review   - 学校科研主管审核
+
+PatentController.java      - 专利管理接口
+  POST /api/patent/submit  - 教师申请盖章
+  POST /api/patent/review  - 学校科研主管操作（盖章/实质审查/授权/驳回）
+
+TaskBookController.java    - 任务书接口
+  POST /api/taskbook/submit - 教师提交任务书
+  POST /api/taskbook/review/{id} - 学校科研主管审核
+
+NoticeController.java      - 消息通知接口
+  GET  /api/notice/list    - 通知列表
+  GET  /api/notice/unread  - 未读通知数量
+  POST /api/notice/send    - 发送通知
+  PUT  /api/notice/read/{id} - 标记已读
+
+StatisticsController.java  - 数据统计接口
+  GET  /api/statistics/dashboard - 首页仪表盘数据
+
+
+【业务逻辑层 service/】
+
+ProjectService.java - 项目核心业务
+  - apply()：项目申报，根据项目类别和类型自动设置初始审批状态
+    * 纵向院级 → PENDING_REVIEW（由学院科研主管评审）
+    * 纵向校级/省级/国家级 → PENDING_APPROVAL（由学校科研主管审批）
+    * 横向招标 → PENDING_SEAL（先盖章）
+    * 横向委托 → PENDING_APPROVAL（直接审批）
+  - approve()：审批操作，含角色权限校验
+    * PENDING_SEAL → 仅SCHOOL_ADMIN可操作
+    * PENDING_REVIEW → 院级项目仅COLLEGE_ADMIN，其他仅SCHOOL_ADMIN
+    * PENDING_APPROVAL → 仅SCHOOL_ADMIN可操作
+  - resolveNextStatus()：根据当前状态和项目类型计算下一个状态
+
+BudgetService.java - 预算业务
+  - 完整流程：PENDING → APPROVED(审核通过) → SEALED(财务盖章) → FINAL_APPROVED(最终审批)
+  - 每步操作均校验操作人角色
+
+SettlementService.java - 结算业务
+  - 流程：PENDING → APPROVED(审核通过) → SEALED(财务盖章)
+
+PatentService.java - 专利业务
+  - 流程：PENDING_SEAL → SEALED(盖章) → UNDER_REVIEW(实质审查) → AUTHORIZED(授权)
+
+
+【配置层 config/】
+
+SecurityConfig.java         - Spring Security配置，开放登录注册接口
+JwtAuthenticationFilter.java - JWT令牌解析过滤器
+RateLimitInterceptor.java   - Redis接口限流（60次/分钟）
+XssFilter.java              - XSS攻击防护过滤器
+OperationLogAspect.java     - AOP操作日志切面（记录所有Controller操作）
+BackupConfig.java           - 定时数据库备份（每日凌晨2点）
+RedisConfig.java            - Redis缓存配置
+
+
+【工具类 util/】
+
+JwtUtil.java          - JWT令牌生成与解析
+Result.java           - 统一返回结果封装
+DataEncryptUtil.java  - AES数据加密工具
+
+
+========================================================
+三、PC前端代码说明
+========================================================
+
+【API层 api/】
+request.js  - Axios实例配置
+  - 请求拦截器：自动附加JWT令牌
+  - 响应拦截器：401自动跳转登录，非200弹出错误提示
+index.js    - 所有API接口按模块分组（auth/user/project/budget/settlement/paper/patent/notice/statistics/taskbook）
+
+【路由 router/】
+index.js - 路由配置
+  - /login          → 登录页
+  - /dashboard      → 首页概览
+  - /project        → 项目管理
+  - /project/add    → 项目申报表单
+  - /budget         → 经费预算
+  - /settlement     → 经费结算
+  - /paper          → 论文专著
+  - /patent         → 专利管理
+  - /taskbook       → 任务书管理
+  - /user           → 用户管理
+  - /notice         → 消息通知
+
+【页面组件 views/】
+每个页面均包含：
+  - 数据列表（分页+搜索+筛选）
+  - 新增表单（对话框模式）
+  - 操作按钮（根据用户角色动态显示/隐藏）
+
+
+========================================================
+四、小程序代码说明
+========================================================
+
+app.js - 全局配置
+  - globalData.baseUrl：后端API地址
+  - onLaunch：读取本地缓存的token和用户信息
+
+utils/request.js - 请求封装
+  - 自动携带JWT令牌
+  - 401自动跳转登录页
+  - 网络异常友好提示
+
+pages/login - 登录页
+  - 快捷填充测试账号
+  - 跳转注册页
+
+pages/project/list - 项目列表
+  - Tab切换（全部/横向/纵向）
+  - 关键词搜索
+  - 教师可见"申报"按钮
+
+pages/project/detail - 项目详情
+  - 根据项目类型+用户角色动态显示审批按钮
+  - 不同审批节点显示不同按钮文案
+
+pages/project/apply - 项目申报
+  - 纵向/横向切换联动项目类型选项
+  - 表单验证
+
+
+========================================================
+五、数据库说明
+========================================================
+
+数据库名：research_db
+字符集：utf8mb4
+
+核心数据表：
+1.  sys_college       - 学院信息（学院名称、编码）
+2.  sys_user          - 用户信息（账号、密码、角色、学院）
+3.  research_project  - 科研项目（名称、类别、类型、状态、负责人）
+4.  project_member    - 项目成员（项目ID、用户ID、角色）
+5.  project_budget    - 经费预算（各类经费明细、审核状态）
+6.  project_settlement - 经费结算（各类经费明细、审核状态）
+7.  research_paper    - 论文专著（标题、类型、作者、审核状态）
+8.  research_patent   - 专利信息（名称、发明人、授权状态）
+9.  task_book         - 项目任务书（研究内容、进度安排）
+10. approval_record   - 审批记录（业务类型、操作、意见）
+11. sys_notice        - 系统通知（标题、内容、已读状态）
+12. operation_log     - 操作日志（模块、操作、IP、耗时）
+
+
+========================================================
+六、系统角色与权限
+========================================================
+
+| 角色             | 编码           | 主要权限                          |
+|-----------------|---------------|----------------------------------|
+| 高校普通教师      | TEACHER       | 项目申报/结题、经费编制、成果录入    |
+| 学院科研主管      | COLLEGE_ADMIN | 院级项目评审、学院数据查询          |
+| 学校科研主管      | SCHOOL_ADMIN  | 项目审批、经费审核/审批、成果审核    |
+| 财务主管         | FINANCE_ADMIN | 预算盖章、结算盖章                  |
+| 系统管理员       | SYSTEM_ADMIN  | 用户审核、系统管理                  |
+
+
+========================================================
+七、项目审批流程说明
+========================================================
+
+【纵向项目】
+- 院级：教师申报 → 学院评审(COLLEGE_ADMIN) → 立项审批(SCHOOL_ADMIN) → 已立项
+- 校级：教师申报 → 学校审批(SCHOOL_ADMIN) → 已立项
+- 省/国家级：教师申报 → 学校审批 → 盖章 → 上级评审 → 立项 → 任务书 → 结题
+
+【横向项目】
+- 招标：教师申报 → 投标盖章(SCHOOL_ADMIN) → 评审 → 立项 → 结题
+- 委托：教师申报 → 合同审批(SCHOOL_ADMIN) → 已立项 → 结题
+
+【经费预算】
+教师编制 → 学校科研主管审核 → 财务主管盖章 → 学校科研主管最终审批
+
+【经费结算】
+教师编制 → 学校科研主管审核 → 财务主管盖章
+
+【科研成果-论文】
+教师录入 → 学校科研主管审核
+
+【科研成果-专利】
+教师申请盖章 → 学校科研主管盖章 → 实质审查 → 授权通过

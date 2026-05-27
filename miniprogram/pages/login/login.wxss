@@ -1,0 +1,92 @@
+.login-page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #e8f5f0 0%, #f5f7f6 40%);
+  padding: 0 48rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.login-header {
+  margin-top: 120rpx;
+  text-align: center;
+  margin-bottom: 60rpx;
+}
+.logo-circle {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 30rpx;
+  background: #2d8f7b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24rpx;
+  box-shadow: 0 8rpx 24rpx rgba(45,143,123,0.3);
+}
+.logo-icon { width: 64rpx; height: 64rpx; }
+.form-icon { width: 36rpx; height: 36rpx; margin-right: 20rpx; }
+.app-title {
+  display: block;
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 8rpx;
+}
+.app-subtitle {
+  display: block;
+  font-size: 22rpx;
+  color: #95a5a6;
+  letter-spacing: 1rpx;
+}
+.login-form {
+  width: 100%;
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 40rpx 32rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.06);
+}
+.form-item {
+  display: flex;
+  align-items: center;
+  border-bottom: 1rpx solid #f0f0f0;
+  padding: 30rpx 0;
+  min-height: 96rpx;
+  box-sizing: border-box;
+}
+.form-input { flex: 1; font-size: 30rpx; height: 64rpx; line-height: 64rpx; }
+.login-btn {
+  margin-top: 40rpx;
+  background: #2d8f7b !important;
+  color: #fff !important;
+  border-radius: 16rpx !important;
+  font-size: 32rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  border: none;
+}
+.login-btn::after { border: none; }
+.register-link { text-align: center; margin-top: 24rpx; color: #2d8f7b; font-size: 26rpx; }
+.demo-section {
+  margin-top: 48rpx;
+  width: 100%;
+  text-align: center;
+}
+.demo-title {
+  font-size: 24rpx;
+  color: #999;
+  margin-bottom: 20rpx;
+  display: block;
+}
+.demo-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+  justify-content: center;
+}
+.demo-tag {
+  padding: 12rpx 24rpx;
+  background: #fff;
+  border: 1rpx solid #e0e0e0;
+  border-radius: 12rpx;
+  font-size: 24rpx;
+  color: #2d8f7b;
+}

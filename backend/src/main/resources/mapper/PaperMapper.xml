@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.research.mapper.PaperMapper">
+    <select id="selectPaperPage" resultType="com.research.entity.ResearchPaper">
+        SELECT rp.*, u.real_name as author_name, p.project_name
+        FROM research_paper rp
+        LEFT JOIN sys_user u ON rp.author_id = u.id
+        LEFT JOIN research_project p ON rp.project_id = p.id
+        WHERE rp.deleted = 0
+        <if test="keyword != null and keyword != ''">
+            AND (rp.title LIKE CONCAT('%',#{keyword},'%') OR rp.journal_name LIKE CONCAT('%',#{keyword},'%'))
+        </if>
+        <if test="type != null and type != ''">
+            AND rp.type = #{type}
+        </if>
+        <if test="status != null and status != ''">
+            AND rp.status = #{status}
+        </if>
+        <if test="authorId != null">
+            AND rp.author_id = #{authorId}
+        </if>
+        ORDER BY rp.create_time DESC
+    </select>
+</mapper>

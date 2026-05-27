@@ -1,0 +1,58 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/register/register",
+    "pages/index/index",
+    "pages/project/list/list",
+    "pages/project/detail/detail",
+    "pages/project/apply/apply",
+    "pages/budget/list/list",
+    "pages/paper/list/list",
+    "pages/patent/list/list",
+    "pages/settlement/list/list",
+    "pages/notice/notice",
+    "pages/mine/mine",
+    "pages/changePwd/changePwd"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#2d8f7b",
+    "navigationBarTitleText": "科研项目管理",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f5f7f6",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "color": "#999",
+    "selectedColor": "#2d8f7b",
+    "backgroundColor": "#fff",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/tab-home.png",
+        "selectedIconPath": "images/tab-home-active.png"
+      },
+      {
+        "pagePath": "pages/project/list/list",
+        "text": "项目",
+        "iconPath": "images/tab-project.png",
+        "selectedIconPath": "images/tab-project-active.png"
+      },
+      {
+        "pagePath": "pages/notice/notice",
+        "text": "消息",
+        "iconPath": "images/tab-notice.png",
+        "selectedIconPath": "images/tab-notice-active.png"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的",
+        "iconPath": "images/tab-mine.png",
+        "selectedIconPath": "images/tab-mine-active.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

@@ -1,0 +1,33 @@
+<view class="container">
+  <view class="card">
+    <view class="form-group">
+      <text class="form-label">项目名称 *</text>
+      <input class="form-ctrl" placeholder="请输入项目名称" value="{{form.projectName}}" bindinput="onInput" data-field="projectName" />
+    </view>
+    <view class="form-group">
+      <text class="form-label">项目类别 *</text>
+      <picker range="{{categories}}" range-key="label" value="{{categoryIndex}}" bindchange="onCategoryChange">
+        <view class="form-ctrl picker">{{categories[categoryIndex].label}}</view>
+      </picker>
+    </view>
+    <view class="form-group">
+      <text class="form-label">项目类型 *</text>
+      <picker range="{{typeOptions}}" range-key="label" value="{{typeIndex}}" bindchange="onTypeChange">
+        <view class="form-ctrl picker">{{typeOptions[typeIndex].label}}</view>
+      </picker>
+    </view>
+    <view class="form-group">
+      <text class="form-label">项目来源</text>
+      <input class="form-ctrl" placeholder="资助来源/招标单位" value="{{form.projectSource}}" bindinput="onInput" data-field="projectSource" />
+    </view>
+    <view class="form-group">
+      <text class="form-label">经费金额(万元)</text>
+      <input class="form-ctrl" type="digit" placeholder="0.00" value="{{form.fundingAmount}}" bindinput="onInput" data-field="fundingAmount" />
+    </view>
+    <view class="form-group">
+      <text class="form-label">项目描述</text>
+      <textarea class="form-ctrl textarea" placeholder="请简要描述项目内容" value="{{form.description}}" bindinput="onInput" data-field="description" />
+    </view>
+  </view>
+  <button class="btn-primary" bindtap="submit" loading="{{loading}}" style="margin-top:20rpx">提交申报</button>
+</view>

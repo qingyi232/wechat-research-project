@@ -1,0 +1,66 @@
+<view class="container">
+  <view class="welcome-card">
+    <view class="welcome-text">
+      <text class="welcome-hello">你好，{{userInfo.realName || '用户'}}</text>
+      <text class="welcome-role">{{roleMap[userInfo.role] || ''}}</text>
+    </view>
+    <view class="welcome-icon-wrap">
+      <image class="welcome-icon" src="/images/icon-graduation.svg" mode="aspectFit" />
+    </view>
+  </view>
+
+  <view class="stat-grid">
+    <view class="stat-item" style="border-left: 6rpx solid #2d8f7b">
+      <text class="stat-num">{{stats.project.total || 0}}</text>
+      <text class="stat-label">项目总数</text>
+    </view>
+    <view class="stat-item" style="border-left: 6rpx solid #e8a838">
+      <text class="stat-num">{{stats.project.inProgress || 0}}</text>
+      <text class="stat-label">在研项目</text>
+    </view>
+    <view class="stat-item" style="border-left: 6rpx solid #27ae60">
+      <text class="stat-num">{{stats.achievement.total || 0}}</text>
+      <text class="stat-label">科研成果</text>
+    </view>
+    <view class="stat-item" style="border-left: 6rpx solid #3498db">
+      <text class="stat-num">{{stats.teacherCount || 0}}</text>
+      <text class="stat-label">科研教师</text>
+    </view>
+  </view>
+
+  <view class="quick-nav">
+    <text class="section-title">快捷入口</text>
+    <view class="nav-grid">
+      <view class="nav-item" bindtap="switchToProject">
+        <view class="nav-icon" style="background:#e8f5f0">
+          <image class="nav-icon-img" src="/images/icon-folder.svg" mode="aspectFit" />
+        </view>
+        <text>项目管理</text>
+      </view>
+      <view class="nav-item" bindtap="goTo" data-url="/pages/budget/list/list">
+        <view class="nav-icon" style="background:#fef5e7">
+          <image class="nav-icon-img" src="/images/icon-money.svg" mode="aspectFit" />
+        </view>
+        <text>经费预算</text>
+      </view>
+      <view class="nav-item" bindtap="goTo" data-url="/pages/paper/list/list">
+        <view class="nav-icon" style="background:#eafaf1">
+          <image class="nav-icon-img" src="/images/icon-paper.svg" mode="aspectFit" />
+        </view>
+        <text>论文专著</text>
+      </view>
+      <view class="nav-item" bindtap="goTo" data-url="/pages/settlement/list/list">
+        <view class="nav-icon" style="background:#fce4ec">
+          <image class="nav-icon-img" src="/images/icon-chart.svg" mode="aspectFit" />
+        </view>
+        <text>经费结算</text>
+      </view>
+      <view class="nav-item" bindtap="goTo" data-url="/pages/patent/list/list">
+        <view class="nav-icon" style="background:#ebf5fb">
+          <image class="nav-icon-img" src="/images/icon-trophy.svg" mode="aspectFit" />
+        </view>
+        <text>专利管理</text>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,83 @@
+<view class="container">
+  <view class="page-header">
+    <text class="page-title">论文专著</text>
+    <view class="add-btn" bindtap="toggleForm" wx:if="{{!showForm && userInfo.role === 'TEACHER'}}">
+      <image class="add-icon" src="/images/icon-plus.svg" mode="aspectFit" />
+      <text>录入</text>
+    </view>
+  </view>
+
+  <view class="form-panel" wx:if="{{showForm}}">
+    <view class="form-title">录入论文/专著</view>
+    <view class="form-item">
+      <text class="form-label">类型</text>
+      <picker range="{{typeOptions}}" range-key="label" value="{{typeIndex}}" bindchange="onTypeChange">
+        <view class="picker-value">{{typeOptions[typeIndex].label}}</view>
+      </picker>
+    </view>
+    <view class="form-item">
+      <text class="form-label">标题</text>
+      <input placeholder="请输入标题" value="{{form.title}}" data-field="title" bindinput="onInput" />
+    </view>
+    <view class="form-item">
+      <text class="form-label">期刊/出版社</text>
+      <input placeholder="请输入期刊或出版社名称" value="{{form.journalName}}" data-field="journalName" bindinput="onInput" />
+    </view>
+    <view class="form-item">
+      <text class="form-label">发表级别</text>
+      <picker range="{{levelOptions}}" value="{{levelIndex}}" bindchange="onLevelChange">
+        <view class="picker-value">{{levelOptions[levelIndex]}}</view>
+      </picker>
+    </view>
+    <view class="form-item">
+      <text class="form-label">DOI号</text>
+      <input placeholder="选填" value="{{form.doi}}" data-field="doi" bindinput="onInput" />
+    </view>
+    <view class="form-item">
+      <text class="form-label">合作作者</text>
+      <input placeholder="多位用逗号分隔（选填）" value="{{form.coAuthors}}" data-field="coAuthors" bindinput="onInput" />
+    </view>
+    <view class="form-item">
+      <text class="form-label">发表日期</text>
+      <picker mode="date" value="{{form.publishDate}}" bindchange="onDateChange">
+        <view class="picker-value">{{form.publishDate || '请选择日期'}}</view>
+      </picker>
+    </view>
+    <view class="form-item">
+      <text class="form-label">摘要</text>
+      <textarea placeholder="请输入摘要（选填）" value="{{form.abstractText}}" data-field="abstractText" bindinput="onInput" />
+    </view>
+    <view class="form-item">
+      <text class="form-label">关键词</text>
+      <input placeholder="用分号分隔（选填）" value="{{form.keywords}}" data-field="keywords" bindinput="onInput" />
+    </view>
+    <view class="form-actions">
+      <view class="btn-cancel" bindtap="toggleForm">取消</view>
+      <view class="btn-submit" bindtap="submitForm">提交</view>
+    </view>
+  </view>
+
+  <view wx:if="{{!showForm}}">
+    <view class="list-item" wx:for="{{list}}" wx:key="id" bindtap="showDetail" data-item="{{item}}">
+      <view class="list-item-title">{{item.title}}</view>
+      <view class="list-item-info">
+        <text>{{item.authorName}} · {{item.type === 'PAPER' ? '论文' : '专著'}}</text>
+        <view class="tag {{item.status==='APPROVED'?'tag-success':item.status==='REJECTED'?'tag-danger':'tag-warning'}}">
+          {{statusMap[item.status]}}
+        </view>
+      </view>
+      <view class="list-item-info" style="margin-top:8rpx">
+        <text>{{item.journalName || ''}}</text>
+        <text>{{item.publishLevel || ''}}</text>
+      </view>
+      <view class="action-bar" wx:if="{{item.status === 'PENDING' && (userInfo.role === 'SCHOOL_ADMIN' || userInfo.role === 'COLLEGE_ADMIN')}}">
+        <view class="btn-action btn-approve" catchtap="handleReview" data-id="{{item.id}}" data-action="APPROVE">通过</view>
+        <view class="btn-action btn-reject" catchtap="handleReview" data-id="{{item.id}}" data-action="REJECT">驳回</view>
+      </view>
+    </view>
+    <view class="empty-state" wx:if="{{list.length === 0}}">
+      <image class="empty-icon" src="/images/icon-empty.svg" mode="aspectFit" />
+      <text class="empty-text">暂无论文专著数据</text>
+    </view>
+  </view>
+</view>

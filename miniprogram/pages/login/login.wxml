@@ -1,0 +1,32 @@
+<view class="login-page">
+  <view class="login-header">
+    <view class="logo-circle">
+      <image class="logo-icon" src="/images/icon-graduation-white.svg" mode="aspectFit" />
+    </view>
+    <text class="app-title">高校科研项目管理系统</text>
+    <text class="app-subtitle">University Research Management</text>
+  </view>
+
+  <view class="login-form">
+    <view class="form-item">
+      <image class="form-icon" src="/images/icon-user.svg" mode="aspectFit" />
+      <input class="form-input" placeholder="请输入账号" value="{{username}}" bindinput="onUsernameInput" />
+    </view>
+    <view class="form-item">
+      <image class="form-icon" src="/images/icon-lock.svg" mode="aspectFit" />
+      <input class="form-input" placeholder="请输入密码" password="true" value="{{password}}" bindinput="onPasswordInput" />
+    </view>
+    <button class="login-btn" bindtap="handleLogin" loading="{{loading}}">登 录</button>
+    <view class="register-link" bindtap="goRegister">没有账号？立即注册</view>
+  </view>
+
+  <view class="demo-section">
+    <text class="demo-title">快捷登录（密码均为 123456）</text>
+    <view class="demo-list">
+      <view class="demo-tag" bindtap="fillDemo" data-user="teacher1">教师·张明远</view>
+      <view class="demo-tag" bindtap="fillDemo" data-user="school_admin">科研主管</view>
+      <view class="demo-tag" bindtap="fillDemo" data-user="finance_admin">财务主管</view>
+      <view class="demo-tag" bindtap="fillDemo" data-user="admin">系统管理员</view>
+    </view>
+  </view>
+</view>

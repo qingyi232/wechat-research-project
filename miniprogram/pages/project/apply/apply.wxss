@@ -1,0 +1,14 @@
+.form-group { margin-bottom: 28rpx; }
+.form-label { display: block; font-size: 26rpx; color: #666; margin-bottom: 12rpx; }
+.form-ctrl {
+  background: #f7f8f9;
+  border-radius: 12rpx;
+  padding: 28rpx 24rpx;
+  font-size: 28rpx;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 88rpx;
+  line-height: 1.5;
+}
+.form-ctrl.picker { color: #333; min-height: 88rpx; display: flex; align-items: center; }
+.form-ctrl.textarea { min-height: 220rpx; height: auto; padding: 24rpx; line-height: 1.6; }

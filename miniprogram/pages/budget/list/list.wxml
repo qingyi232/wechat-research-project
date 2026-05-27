@@ -1,0 +1,93 @@
+<view class="container">
+  <view class="page-header">
+    <text class="page-title">经费预算</text>
+    <view class="add-btn" bindtap="toggleForm" wx:if="{{!showForm && userInfo.role === 'TEACHER'}}">
+      <image class="add-icon" src="/images/icon-plus.svg" mode="aspectFit" />
+      <text>编制预算</text>
+    </view>
+  </view>
+
+  <view class="form-panel" wx:if="{{showForm}}">
+    <view class="form-title">编制预算单</view>
+    <view class="form-item">
+      <text class="form-label">关联项目</text>
+      <picker range="{{myProjects}}" range-key="projectName" value="{{projectIndex}}" bindchange="onProjectChange">
+        <view class="picker-value">{{projectIndex >= 0 ? myProjects[projectIndex].projectName : '请选择项目'}}</view>
+      </picker>
+    </view>
+    <view class="form-row">
+      <view class="form-item half">
+        <text class="form-label">设备费(万)</text>
+        <input type="digit" placeholder="0" value="{{form.equipmentFee}}" data-field="equipmentFee" bindinput="onInput" />
+      </view>
+      <view class="form-item half">
+        <text class="form-label">材料费(万)</text>
+        <input type="digit" placeholder="0" value="{{form.materialFee}}" data-field="materialFee" bindinput="onInput" />
+      </view>
+    </view>
+    <view class="form-row">
+      <view class="form-item half">
+        <text class="form-label">差旅费(万)</text>
+        <input type="digit" placeholder="0" value="{{form.travelFee}}" data-field="travelFee" bindinput="onInput" />
+      </view>
+      <view class="form-item half">
+        <text class="form-label">会议费(万)</text>
+        <input type="digit" placeholder="0" value="{{form.meetingFee}}" data-field="meetingFee" bindinput="onInput" />
+      </view>
+    </view>
+    <view class="form-row">
+      <view class="form-item half">
+        <text class="form-label">劳务费(万)</text>
+        <input type="digit" placeholder="0" value="{{form.laborFee}}" data-field="laborFee" bindinput="onInput" />
+      </view>
+      <view class="form-item half">
+        <text class="form-label">咨询费(万)</text>
+        <input type="digit" placeholder="0" value="{{form.consultFee}}" data-field="consultFee" bindinput="onInput" />
+      </view>
+    </view>
+    <view class="form-item">
+      <text class="form-label">其他费用(万)</text>
+      <input type="digit" placeholder="0" value="{{form.otherFee}}" data-field="otherFee" bindinput="onInput" />
+    </view>
+    <view class="form-item">
+      <text class="form-label">备注</text>
+      <textarea placeholder="请输入备注（选填）" value="{{form.remark}}" data-field="remark" bindinput="onInput" />
+    </view>
+    <view class="form-actions">
+      <view class="btn-cancel" bindtap="toggleForm">取消</view>
+      <view class="btn-submit" bindtap="submitForm">提交</view>
+    </view>
+  </view>
+
+  <view wx:if="{{!showForm}}">
+    <view class="list-item" wx:for="{{list}}" wx:key="id" bindtap="showDetail" data-item="{{item}}">
+      <view class="list-item-title">{{item.projectName}}</view>
+      <view class="list-item-info">
+        <text>预算: {{item.totalAmount}}万元</text>
+        <view class="tag {{item.status==='SEALED'?'tag-success':item.status==='REJECTED'?'tag-danger':'tag-warning'}}">
+          {{statusMap[item.status]}}
+        </view>
+      </view>
+      <view class="budget-detail">
+        <text class="budget-item">设备费{{item.equipmentFee || 0}}万</text>
+        <text class="budget-item">材料费{{item.materialFee || 0}}万</text>
+        <text class="budget-item">差旅费{{item.travelFee || 0}}万</text>
+        <text class="budget-item">会议费{{item.meetingFee || 0}}万</text>
+        <text class="budget-item">劳务费{{item.laborFee || 0}}万</text>
+        <text class="budget-item">咨询费{{item.consultFee || 0}}万</text>
+        <text class="budget-item">其他{{item.otherFee || 0}}万</text>
+      </view>
+      <view class="action-bar" wx:if="{{item.status === 'PENDING' && (userInfo.role === 'SCHOOL_ADMIN' || userInfo.role === 'COLLEGE_ADMIN')}}">
+        <view class="btn-action btn-approve" catchtap="handleReview" data-id="{{item.id}}" data-action="APPROVE">通过</view>
+        <view class="btn-action btn-reject" catchtap="handleReview" data-id="{{item.id}}" data-action="REJECT">驳回</view>
+      </view>
+      <view class="action-bar" wx:if="{{item.status === 'APPROVED' && userInfo.role === 'FINANCE_ADMIN'}}">
+        <view class="btn-action btn-approve" catchtap="handleSeal" data-id="{{item.id}}">盖章</view>
+      </view>
+    </view>
+    <view class="empty-state" wx:if="{{list.length === 0}}">
+      <image class="empty-icon" src="/images/icon-empty.svg" mode="aspectFit" />
+      <text class="empty-text">暂无预算数据</text>
+    </view>
+  </view>
+</view>

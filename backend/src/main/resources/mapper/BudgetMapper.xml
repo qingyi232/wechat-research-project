@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.research.mapper.BudgetMapper">
+    <select id="selectBudgetPage" resultType="com.research.entity.ProjectBudget">
+        SELECT b.*, p.project_name, u.real_name as leader_name
+        FROM project_budget b
+        LEFT JOIN research_project p ON b.project_id = p.id
+        LEFT JOIN sys_user u ON p.leader_id = u.id
+        WHERE 1=1
+        <if test="keyword != null and keyword != ''">
+            AND p.project_name LIKE CONCAT('%',#{keyword},'%')
+        </if>
+        <if test="status != null and status != ''">
+            AND b.status = #{status}
+        </if>
+        <if test="leaderId != null">
+            AND p.leader_id = #{leaderId}
+        </if>
+        ORDER BY b.create_time DESC
+    </select>
+</mapper>

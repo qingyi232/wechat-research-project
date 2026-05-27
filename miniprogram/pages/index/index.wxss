@@ -1,0 +1,50 @@
+.welcome-card {
+  background: linear-gradient(135deg, #2d8f7b, #3ab096);
+  border-radius: 24rpx;
+  padding: 36rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24rpx;
+}
+.welcome-hello { display: block; font-size: 36rpx; font-weight: 700; color: #fff; margin-bottom: 8rpx; }
+.welcome-role { display: block; font-size: 24rpx; color: rgba(255,255,255,0.8); }
+.welcome-icon-wrap {
+  width: 110rpx;
+  height: 110rpx;
+  border-radius: 50%;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6rpx 20rpx rgba(0,0,0,0.12);
+}
+.welcome-icon { width: 64rpx; height: 64rpx; }
+.nav-icon-img { width: 56rpx; height: 56rpx; }
+.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16rpx; margin-bottom: 28rpx; }
+.stat-item {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.04);
+}
+.stat-num { display: block; font-size: 44rpx; font-weight: 700; color: #2c3e50; }
+.stat-label { display: block; font-size: 24rpx; color: #999; margin-top: 6rpx; }
+.quick-nav {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 28rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.04);
+}
+.nav-grid { display: flex; flex-wrap: wrap; justify-content: space-around; gap: 24rpx 0; text-align: center; }
+.nav-item { font-size: 24rpx; color: #666; width: 25%; }
+.nav-icon {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 10rpx;
+  font-size: 40rpx;
+}

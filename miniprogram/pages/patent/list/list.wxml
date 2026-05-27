@@ -1,0 +1,68 @@
+<view class="container">
+  <view class="page-header">
+    <text class="page-title">专利管理</text>
+    <view class="add-btn" bindtap="toggleForm" wx:if="{{!showForm && userInfo.role === 'TEACHER'}}">
+      <image class="add-icon" src="/images/icon-plus.svg" mode="aspectFit" />
+      <text>申请盖章</text>
+    </view>
+  </view>
+
+  <view class="form-panel" wx:if="{{showForm}}">
+    <view class="form-title">专利盖章申请</view>
+    <view class="form-item">
+      <text class="form-label">专利名称</text>
+      <input placeholder="请输入专利名称" value="{{form.patentName}}" data-field="patentName" bindinput="onInput" />
+    </view>
+    <view class="form-item">
+      <text class="form-label">专利类型</text>
+      <picker range="{{patentTypeOptions}}" range-key="label" value="{{patentTypeIndex}}" bindchange="onPatentTypeChange">
+        <view class="picker-value">{{patentTypeOptions[patentTypeIndex].label}}</view>
+      </picker>
+    </view>
+    <view class="form-item">
+      <text class="form-label">申请号</text>
+      <input placeholder="请输入申请号" value="{{form.applicationNo}}" data-field="applicationNo" bindinput="onInput" />
+    </view>
+    <view class="form-item">
+      <text class="form-label">合作发明人</text>
+      <input placeholder="多位用逗号分隔（选填）" value="{{form.coInventors}}" data-field="coInventors" bindinput="onInput" />
+    </view>
+    <view class="form-item">
+      <text class="form-label">申请日期</text>
+      <picker mode="date" value="{{form.applyDate}}" bindchange="onDateChange">
+        <view class="picker-value">{{form.applyDate || '请选择日期'}}</view>
+      </picker>
+    </view>
+    <view class="form-actions">
+      <view class="btn-cancel" bindtap="toggleForm">取消</view>
+      <view class="btn-submit" bindtap="submitForm">提交</view>
+    </view>
+  </view>
+
+  <view wx:if="{{!showForm}}">
+    <view class="list-item" wx:for="{{list}}" wx:key="id" bindtap="showDetail" data-item="{{item}}">
+      <view class="list-item-title">{{item.patentName}}</view>
+      <view class="list-item-info">
+        <text>{{item.inventorName}} · {{typeMap[item.patentType] || ''}}</text>
+        <view class="tag {{item.status==='AUTHORIZED'?'tag-success':item.status==='REJECTED'?'tag-danger':'tag-warning'}}">
+          {{statusMap[item.status]}}
+        </view>
+      </view>
+      <view class="list-item-info" style="margin-top:8rpx">
+        <text>专利号: {{item.patentNo || '待授权'}}</text>
+        <text>{{item.applyDate || ''}}</text>
+      </view>
+      <view class="action-bar" wx:if="{{item.status === 'PENDING_SEAL' && (userInfo.role === 'SCHOOL_ADMIN' || userInfo.role === 'COLLEGE_ADMIN')}}">
+        <view class="btn-action btn-approve" catchtap="handleReview" data-id="{{item.id}}" data-action="SEAL">盖章</view>
+        <view class="btn-action btn-reject" catchtap="handleReview" data-id="{{item.id}}" data-action="REJECT">驳回</view>
+      </view>
+      <view class="action-bar" wx:if="{{item.status === 'SEALED' && (userInfo.role === 'SCHOOL_ADMIN' || userInfo.role === 'COLLEGE_ADMIN')}}">
+        <view class="btn-action btn-approve" catchtap="handleReview" data-id="{{item.id}}" data-action="AUTHORIZE">授权通过</view>
+      </view>
+    </view>
+    <view class="empty-state" wx:if="{{list.length === 0}}">
+      <image class="empty-icon" src="/images/icon-empty.svg" mode="aspectFit" />
+      <text class="empty-text">暂无专利数据</text>
+    </view>
+  </view>
+</view>

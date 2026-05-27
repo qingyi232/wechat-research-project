@@ -1,0 +1,10 @@
+.container { padding: 24rpx; }
+.page-header { padding: 20rpx 0 30rpx; }
+.page-title { font-size: 36rpx; font-weight: bold; color: #2c3e50; }
+.form-panel { background: #fff; border-radius: 16rpx; padding: 30rpx; box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.06); }
+.form-item { margin-bottom: 30rpx; }
+.form-label { display: block; font-size: 28rpx; color: #666; margin-bottom: 12rpx; }
+.form-item input { width: 100%; height: 80rpx; border: 1rpx solid #e8ece9; border-radius: 10rpx; padding: 0 20rpx; font-size: 28rpx; box-sizing: border-box; }
+.form-actions { margin-top: 40rpx; }
+.btn-submit { background: #2d8f7b; color: #fff; text-align: center; padding: 24rpx; border-radius: 10rpx; font-size: 30rpx; }
+.btn-disabled { opacity: 0.6; }

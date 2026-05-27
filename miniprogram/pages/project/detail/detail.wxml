@@ -1,0 +1,31 @@
+<view class="container" wx:if="{{project}}">
+  <view class="card">
+    <text class="detail-title">{{project.projectName}}</text>
+    <view class="tag {{project.projectCategory === 'HORIZONTAL' ? 'tag-success' : 'tag-warning'}}" style="margin-top:12rpx">
+      {{project.projectCategory === 'HORIZONTAL' ? '横向项目' : '纵向项目'}}
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="info-row"><text class="info-label">负责人</text><text>{{project.leaderName}}</text></view>
+    <view class="info-row"><text class="info-label">经费金额</text><text>{{project.fundingAmount || 0}} 万元</text></view>
+    <view class="info-row"><text class="info-label">项目来源</text><text>{{project.projectSource || '-'}}</text></view>
+    <view class="info-row"><text class="info-label">申报日期</text><text>{{project.applyDate || '-'}}</text></view>
+    <view class="info-row"><text class="info-label">立项日期</text><text>{{project.approvalDate || '-'}}</text></view>
+    <view class="info-row"><text class="info-label">状态</text><text class="tag tag-success">{{statusMap[project.status]}}</text></view>
+  </view>
+
+  <view class="card" wx:if="{{project.description}}">
+    <text class="section-title">项目描述</text>
+    <text class="desc-text">{{project.description}}</text>
+  </view>
+
+  <view class="action-bar" wx:if="{{canOperate}}">
+    <button class="btn-primary" bindtap="handleApprove" data-action="APPROVE"
+      wx:if="{{needApproval}}">{{approveLabel}}</button>
+    <button class="btn-reject" bindtap="handleApprove" data-action="REJECT"
+      wx:if="{{needApproval}}">驳回</button>
+    <button class="btn-primary" bindtap="submitCompletion"
+      wx:if="{{canComplete}}">提交结题</button>
+  </view>
+</view>

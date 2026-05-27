@@ -1,0 +1,55 @@
+<view class="container">
+  <view class="profile-card">
+    <view class="avatar">{{userInfo.realName ? userInfo.realName[0] : '?'}}</view>
+    <view class="profile-info">
+      <text class="profile-name">{{userInfo.realName || '未登录'}}</text>
+      <text class="profile-role">{{roleMap[userInfo.role] || ''}}</text>
+    </view>
+  </view>
+
+  <view class="menu-card">
+    <view class="menu-item" bindtap="switchToProject">
+      <image class="menu-icon" src="/images/icon-folder.svg" mode="aspectFit" />
+      <text class="menu-text">我的项目</text>
+      <image class="menu-arrow" src="/images/icon-arrow-right.svg" mode="aspectFit" />
+    </view>
+    <view class="menu-item" bindtap="goTo" data-url="/pages/budget/list/list">
+      <image class="menu-icon" src="/images/icon-money.svg" mode="aspectFit" />
+      <text class="menu-text">经费预算</text>
+      <image class="menu-arrow" src="/images/icon-arrow-right.svg" mode="aspectFit" />
+    </view>
+    <view class="menu-item" bindtap="goTo" data-url="/pages/settlement/list/list">
+      <image class="menu-icon" src="/images/icon-chart.svg" mode="aspectFit" />
+      <text class="menu-text">经费结算</text>
+      <image class="menu-arrow" src="/images/icon-arrow-right.svg" mode="aspectFit" />
+    </view>
+    <view class="menu-item" bindtap="goTo" data-url="/pages/paper/list/list">
+      <image class="menu-icon" src="/images/icon-paper.svg" mode="aspectFit" />
+      <text class="menu-text">论文专著</text>
+      <image class="menu-arrow" src="/images/icon-arrow-right.svg" mode="aspectFit" />
+    </view>
+    <view class="menu-item" bindtap="goTo" data-url="/pages/patent/list/list">
+      <image class="menu-icon" src="/images/icon-trophy.svg" mode="aspectFit" />
+      <text class="menu-text">专利管理</text>
+      <image class="menu-arrow" src="/images/icon-arrow-right.svg" mode="aspectFit" />
+    </view>
+  </view>
+
+  <view class="menu-card">
+    <view class="menu-item" bindtap="switchToNotice">
+      <image class="menu-icon" src="/images/icon-bell.svg" mode="aspectFit" />
+      <text class="menu-text">消息通知</text>
+      <image class="menu-arrow" src="/images/icon-arrow-right.svg" mode="aspectFit" />
+    </view>
+    <view class="menu-item" bindtap="goTo" data-url="/pages/changePwd/changePwd">
+      <image class="menu-icon" src="/images/icon-lock.svg" mode="aspectFit" />
+      <text class="menu-text">修改密码</text>
+      <image class="menu-arrow" src="/images/icon-arrow-right.svg" mode="aspectFit" />
+    </view>
+  </view>
+
+  <button class="logout-btn" bindtap="handleLogout">
+    <image class="logout-icon" src="/images/icon-logout.svg" mode="aspectFit" />
+    <text>退出登录</text>
+  </button>
+</view>

@@ -1,0 +1,51 @@
+<view class="register-page">
+  <view class="register-header">
+    <view class="logo-circle">
+      <image class="logo-icon" src="/images/icon-user.svg" mode="aspectFit" />
+    </view>
+    <text class="app-title">注册新账号</text>
+    <text class="app-subtitle">Registration</text>
+  </view>
+
+  <view class="register-form">
+    <view class="form-item">
+      <image class="form-icon" src="/images/icon-user.svg" mode="aspectFit" />
+      <input class="form-input" placeholder="请输入账号" value="{{form.username}}" data-field="username" bindinput="onInput" />
+    </view>
+    <view class="form-item">
+      <image class="form-icon" src="/images/icon-lock.svg" mode="aspectFit" />
+      <input class="form-input" placeholder="请输入密码" password="true" value="{{form.password}}" data-field="password" bindinput="onInput" />
+    </view>
+    <view class="form-item">
+      <image class="form-icon" src="/images/icon-lock.svg" mode="aspectFit" />
+      <input class="form-input" placeholder="确认密码" password="true" value="{{form.confirmPwd}}" data-field="confirmPwd" bindinput="onInput" />
+    </view>
+    <view class="form-item">
+      <image class="form-icon" src="/images/icon-edit.svg" mode="aspectFit" />
+      <input class="form-input" placeholder="请输入真实姓名" value="{{form.realName}}" data-field="realName" bindinput="onInput" />
+    </view>
+    <view class="form-item">
+      <image class="form-icon" src="/images/icon-school.svg" mode="aspectFit" />
+      <picker range="{{roleOptions}}" range-key="label" value="{{roleIndex}}" bindchange="onRoleChange">
+        <view class="form-input picker-text">{{roleOptions[roleIndex].label}}</view>
+      </picker>
+    </view>
+    <view class="form-item">
+      <image class="form-icon" src="/images/icon-building.svg" mode="aspectFit" />
+      <picker range="{{colleges}}" range-key="collegeName" value="{{collegeIndex}}" bindchange="onCollegeChange">
+        <view class="form-input picker-text">{{collegeIndex >= 0 ? colleges[collegeIndex].collegeName : '请选择学院（选填）'}}</view>
+      </picker>
+    </view>
+    <view class="form-item">
+      <image class="form-icon" src="/images/icon-phone.svg" mode="aspectFit" />
+      <input class="form-input" placeholder="手机号（选填）" type="number" value="{{form.phone}}" data-field="phone" bindinput="onInput" />
+    </view>
+    <view class="form-item">
+      <image class="form-icon" src="/images/icon-mail.svg" mode="aspectFit" />
+      <input class="form-input" placeholder="邮箱（选填）" value="{{form.email}}" data-field="email" bindinput="onInput" />
+    </view>
+
+    <button class="register-btn" bindtap="handleRegister" loading="{{loading}}">注 册</button>
+    <view class="login-link" bindtap="goLogin">已有账号？返回登录</view>
+  </view>
+</view>
